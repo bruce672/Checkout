@@ -167,41 +167,4 @@ function pay() {
 </script>
 
 </body>
-</html><div id="receipt" style="display:none">
-  <h2>Receipt</h2>
-  <p>Payment successful ✅</p>
-  <p>Order ID: <span id="order"></span></p>
-  <p>Total charged: $49</p>
-
-  <div class="success">Thank you for your purchase!</div>
-</div>
-
-<button class="toggle" onclick="toggleTheme()">Toggle Theme</button>
-
-</div>
-
-<script>
-let light = false;
-
-function toggleTheme() {
-  light = !light;
-  document.body.classList.toggle("light");
-}
-
-function pay() {
-  const btn = document.querySelector(".pay");
-  btn.innerText = "Processing...";
-  btn.disabled = true;
-
-  setTimeout(() => {
-    document.getElementById("cart").style.display = "none";
-    document.getElementById("receipt").style.display = "block";
-
-    document.getElementById("order").innerText =
-      Math.random().toString(36).substring(2,10).toUpperCase();
-  }, 1500);
-}
-</script>
-
-</body>
 </html>
