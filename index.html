@@ -8,113 +8,110 @@
 <style>
 body {
   margin: 0;
+  background: #efefef;
   font-family: system-ui, -apple-system, sans-serif;
-  background: #f5f5f7;
   display: flex;
   justify-content: center;
 }
 
-.phone {
-  width: 390px;
-  background: white;
+.app {
+  width: 420px;
+  background: #f7f7f7;
   min-height: 100vh;
-  padding: 16px;
 }
 
-.test {
-  background: #ffe8b3;
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-bottom: 10px;
-}
+/* header */
 
-button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.apple {
-  background: black;
-  color: white;
-}
-
-.link {
-  background: #00c853;
-  color: white;
-}
-
-.divider {
+.header {
   text-align: center;
-  color: #777;
-  margin: 16px 0;
-  font-size: 14px;
+  padding: 28px 16px;
+  background: #ececec;
 }
 
-.input-box {
+.header small {
+  color: #777;
+  font-size: 16px;
+}
+
+.header h1 {
+  margin: 6px 0 0;
+  font-weight: 500;
+}
+
+/* sections */
+
+.section {
+  padding: 18px 16px;
+}
+
+label {
+  font-size: 14px;
+  color: #555;
+}
+
+.box {
+  margin-top: 6px;
+  background: white;
+  border-radius: 12px;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-top: 10px;
   overflow: hidden;
 }
 
-.input-box input {
+input, select {
   width: 100%;
   padding: 14px;
   border: none;
-  border-bottom: 1px solid #eee;
-  font-size: 15px;
+  font-size: 16px;
+  background: transparent;
 }
 
-.input-box input:last-child {
-  border-bottom: none;
+input:focus {
+  outline: none;
 }
 
-.row {
+.split {
   display: flex;
+  border-top: 1px solid #eee;
 }
 
-.row input {
-  border-bottom: none;
+.split input {
   border-right: 1px solid #eee;
 }
 
-.row input:last-child {
+.split input:last-child {
   border-right: none;
 }
 
-.section {
-  margin-top: 18px;
+.footer {
+  text-align: center;
   font-size: 14px;
-  color: #444;
+  color: #777;
+  padding: 10px;
 }
 
-.checkbox {
-  display: flex;
-  align-items: start;
-  margin-top: 14px;
-  font-size: 14px;
-  gap: 8px;
-}
+/* button */
 
 .pay {
-  background: #0070f3;
+  margin: 16px;
+  background: #1f2933;
   color: white;
+  padding: 16px;
   font-size: 18px;
-  margin-top: 24px;
+  border-radius: 12px;
+  border: none;
+  width: calc(100% - 32px);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pay:hover {
+  opacity: 0.9;
 }
 
 .success {
   text-align: center;
   color: #16a34a;
-  margin-top: 15px;
+  padding: 10px;
   font-weight: 600;
 }
 </style>
@@ -122,40 +119,56 @@ button {
 
 <body>
 
-<div class="phone">
+<div class="app">
 
-<div class="test">TEST MODE</div>
+<div class="header">
+  <small>Custom product</small>
+  <h1>$10.00</h1>
+</div>
 
-<button class="apple">Buy with  Pay</button>
-<button class="link">Pay with Link</button>
-
-<div class="divider">Or pay with card</div>
-
-<div class="section">Card information</div>
-
-<div class="input-box">
-  <input placeholder="Card number" value="4242 4242 4242 4242">
-  <div class="row">
-    <input placeholder="MM/YY" value="12/25">
-    <input placeholder="CVC" value="123">
+<div class="section">
+  <label>Email</label>
+  <div class="box">
+    <input placeholder="you@example.com">
   </div>
 </div>
 
-<div class="section">Billing address</div>
-
-<div class="input-box">
-  <input placeholder="Country or region" value="United States">
-  <input placeholder="ZIP" value="94102">
-</div>
-
-<div class="checkbox">
-  <input type="checkbox" checked>
-  <div>
-    Save info for faster checkout next time
+<div class="section">
+  <label>Card information</label>
+  <div class="box">
+    <input placeholder="1234 1234 1234 1234">
+    <div class="split">
+      <input placeholder="MM / YY">
+      <input placeholder="CVC">
+    </div>
   </div>
 </div>
 
-<button class="pay" onclick="pay()">Pay $50.99</button>
+<div class="section">
+  <label>Name on card</label>
+  <div class="box">
+    <input placeholder="Full name">
+  </div>
+</div>
+
+<div class="section">
+  <label>Country or region</label>
+  <div class="box">
+    <select>
+      <option>United States</option>
+      <option>Canada</option>
+      <option>United Kingdom</option>
+      <option>Australia</option>
+    </select>
+    <input placeholder="ZIP">
+  </div>
+</div>
+
+<div class="footer">
+  ↩ Free returns and exchanges
+</div>
+
+<button class="pay" onclick="pay()">Pay $10.00</button>
 
 <div id="success" class="success"></div>
 
@@ -169,7 +182,7 @@ function pay() {
 
   setTimeout(() => {
     document.getElementById("success").innerText =
-      "Payment successful ✓ (demo)";
+      "Payment successful ✓ (demo mode)";
     btn.innerText = "Paid";
   }, 1500);
 }
