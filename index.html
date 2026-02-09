@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Next Checkout SaaS</title>
+<title>Modern Checkout</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -13,83 +12,122 @@
 
 body {
   margin: 0;
-  background: #0f172a;
-  color: white;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  transition: 0.3s;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  overflow: hidden;
 }
 
-.light { background: #f5f5f5; color: black; }
+.blur-bg {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: #6366f1;
+  filter: blur(160px);
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: float 8s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+  from { transform: translateY(-40px); }
+  to { transform: translateY(40px); }
+}
 
 .app {
+  position: relative;
   width: 380px;
-  padding: 25px;
-  border-radius: 20px;
-  background: #020617;
-  border: 1px solid #1f2937;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  transition: 0.3s;
+  padding: 28px;
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  background: rgba(2,6,23,0.65);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+  animation: fadeIn 0.7s ease;
 }
 
-.light .app {
-  background: white;
-  border: 1px solid #ddd;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-h2 { margin-top: 0; }
+h2 {
+  margin: 0 0 15px 0;
+  font-weight: 600;
+}
 
 .item {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  padding: 8px 0;
+  opacity: 0.9;
 }
 
 .total {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 18px;
-  margin: 15px 0;
+  margin-top: 12px;
 }
 
 button {
   width: 100%;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
-  margin-top: 10px;
+  margin-top: 12px;
   cursor: pointer;
-  font-weight: bold;
   font-size: 15px;
+  font-weight: 600;
   transition: 0.25s;
 }
 
-.pay { background: #6366f1; color: white; }
-.pay:hover { background: #4f46e5; }
+.pay {
+  background: linear-gradient(135deg,#6366f1,#9333ea);
+  color: white;
+}
 
-.wallet { background: black; color: white; }
+.pay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99,102,241,0.5);
+}
 
-.toggle { background: #444; color: white; }
+.wallet {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.wallet:hover {
+  background: rgba(255,255,255,0.15);
+}
 
 .success {
   text-align: center;
   color: #22c55e;
-  font-weight: bold;
   margin-top: 20px;
+  font-weight: 600;
   animation: pop 0.5s ease;
 }
 
 @keyframes pop {
-  from { transform: scale(0.8); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+.receipt {
+  opacity: 0.9;
+  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app" id="app">
+<div class="blur-bg"></div>
+
+<div class="app">
 
 <h2>Checkout</h2>
 
@@ -98,11 +136,38 @@ button {
   <div class="item"><span>Cloud Storage</span><span>$10</span></div>
   <div class="total">Total: $49</div>
 
-  <button class="pay" onclick="pay()">Pay with Stripe</button>
+  <button class="pay" onclick="pay()">Pay Now</button>
   <button class="wallet">Apple / Google Pay</button>
 </div>
 
 <div id="receipt" style="display:none">
+  <h2>Receipt</h2>
+  <div class="receipt">
+    Order ID: <span id="order"></span><br>
+    Charged: $49
+  </div>
+  <div class="success">Payment Successful ✓</div>
+</div>
+
+</div>
+
+<script>
+function pay() {
+  const btn = document.querySelector(".pay");
+  btn.innerText = "Processing...";
+  btn.disabled = true;
+
+  setTimeout(() => {
+    document.getElementById("cart").style.display = "none";
+    document.getElementById("receipt").style.display = "block";
+    document.getElementById("order").innerText =
+      Math.random().toString(36).substring(2,10).toUpperCase();
+  }, 1500);
+}
+</script>
+
+</body>
+</html><div id="receipt" style="display:none">
   <h2>Receipt</h2>
   <p>Payment successful ✅</p>
   <p>Order ID: <span id="order"></span></p>
