@@ -2,79 +2,177 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Stripe Test Checkout</title>
-<script src="https://js.stripe.com/v3/"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Demo</title>
+
 <style>
 body {
-  font-family: Arial;
-  background: #f6f9fc;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f5f7;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
-.card {
+.phone {
+  width: 390px;
   background: white;
-  padding: 30px;
-  border-radius: 14px;
-  width: 320px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.test {
+  background: #ffe8b3;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 button {
   width: 100%;
   padding: 14px;
-  background: #635bff;
-  color: white;
-  border: none;
   border-radius: 10px;
-  cursor: pointer;
-  margin-top: 15px;
+  border: none;
   font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
-#card-element {
-  padding: 12px;
+.apple {
+  background: black;
+  color: white;
+}
+
+.link {
+  background: #00c853;
+  color: white;
+}
+
+.divider {
+  text-align: center;
+  color: #777;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.input-box {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.input-box input:last-child {
+  border-bottom: none;
+}
+
+.row {
+  display: flex;
+}
+
+.row input {
+  border-bottom: none;
+  border-right: 1px solid #eee;
+}
+
+.row input:last-child {
+  border-right: none;
+}
+
+.section {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #444;
+}
+
+.checkbox {
+  display: flex;
+  align-items: start;
+  margin-top: 14px;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.pay {
+  background: #0070f3;
+  color: white;
+  font-size: 18px;
+  margin-top: 24px;
+}
+
+.success {
+  text-align: center;
+  color: #16a34a;
+  margin-top: 15px;
+  font-weight: 600;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-<h3>Test Payment $5</h3>
+<div class="phone">
 
-<div id="card-element"></div>
+<div class="test">TEST MODE</div>
 
-<button id="pay">Pay</button>
+<button class="apple">Buy with  Pay</button>
+<button class="link">Pay with Link</button>
 
-<div id="msg"></div>
+<div class="divider">Or pay with card</div>
+
+<div class="section">Card information</div>
+
+<div class="input-box">
+  <input placeholder="Card number" value="4242 4242 4242 4242">
+  <div class="row">
+    <input placeholder="MM/YY" value="12/25">
+    <input placeholder="CVC" value="123">
+  </div>
+</div>
+
+<div class="section">Billing address</div>
+
+<div class="input-box">
+  <input placeholder="Country or region" value="United States">
+  <input placeholder="ZIP" value="94102">
+</div>
+
+<div class="checkbox">
+  <input type="checkbox" checked>
+  <div>
+    Save info for faster checkout next time
+  </div>
+</div>
+
+<button class="pay" onclick="pay()">Pay $50.99</button>
+
+<div id="success" class="success"></div>
+
 </div>
 
 <script>
-// Replace with your Stripe publishable key
-const stripe = Stripe("pk_test_YOUR_KEY_HERE");
+function pay() {
+  const btn = document.querySelector(".pay");
+  btn.innerText = "Processing...";
+  btn.disabled = true;
 
-const elements = stripe.elements();
-const card = elements.create("card");
-card.mount("#card-element");
-
-document.getElementById("pay").onclick = async () => {
-  const {error, paymentMethod} = await stripe.createPaymentMethod({
-    type: "card",
-    card: card
-  });
-
-  if (error) {
-    document.getElementById("msg").innerText = error.message;
-  } else {
-    document.getElementById("msg").innerText =
-      "Success! Fake payment method created: " + paymentMethod.id;
-  }
-};
+  setTimeout(() => {
+    document.getElementById("success").innerText =
+      "Payment successful ✓ (demo)";
+    btn.innerText = "Paid";
+  }, 1500);
+}
 </script>
 
 </body>
