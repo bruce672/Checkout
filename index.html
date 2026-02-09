@@ -1,168 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crystal Login</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<div class="product">
+  <img src="https://via.placeholder.com/200">
+  <h3>iPhone Crystal</h3>
+  <p>$999</p>
+</div>
 
 <style>
-* { box-sizing: border-box; font-family: Inter, sans-serif; }
-
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at top, #0ea5e9, #020617);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  background: linear-gradient(135deg,#020617,#0f172a);
+  font-family: sans-serif;
 }
 
-/* floating crystal glow */
-
-.glow {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: #38bdf8;
-  filter: blur(160px);
-  opacity: 0.45;
-  border-radius: 50%;
-  animation: float 7s infinite alternate ease-in-out;
-}
-
-@keyframes float {
-  from { transform: translateY(-40px); }
-  to { transform: translateY(40px); }
-}
-
-/* glass container */
-
-.app {
-  width: 380px;
-  max-width: 95%;
-  padding: 28px;
-  border-radius: 26px;
-  backdrop-filter: blur(30px);
+.product {
+  width: 220px;
+  padding: 20px;
+  border-radius: 20px;
   background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
   color: white;
-  animation: fade 0.7s ease;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.logo {
   text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 18px;
-  letter-spacing: 1px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.1);
+  transition: 0.3s;
 }
 
-label {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  margin-top: 6px;
-  margin-bottom: 14px;
-  border-radius: 14px;
-  border: none;
-  background: rgba(255,255,255,0.12);
-  color: white;
-  font-size: 15px;
-}
-
-input::placeholder { color: #ddd; }
-
-input:focus {
-  outline: none;
-  background: rgba(255,255,255,0.18);
-}
-
-button {
-  width: 100%;
-  padding: 15px;
-  border-radius: 16px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  background: linear-gradient(135deg,#38bdf8,#22d3ee);
-  color: #022c22;
-  transition: 0.25s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(56,189,248,0.6);
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  opacity: 0.85;
-  margin-top: 10px;
-}
-
-.success {
-  text-align: center;
-  color: #4ade80;
-  margin-top: 12px;
-  font-weight: 600;
+.product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 60px rgba(255,255,255,0.2);
 }
 </style>
-</head>
-
-<body>
-
-<div class="glow"></div>
-
-<div class="app">
-
-<div class="logo">CRYSTAL LOGIN</div>
-
-<label>Email</label>
-<input placeholder="you@example.com">
-
-<label>Password</label>
-<input type="password" placeholder="••••••••">
-
-<button onclick="login()">Log In</button>
-
-<div class="row">
-  <span>Remember me</span>
-  <span>Forgot password?</span>
-</div>
-
-<div id="success" class="success"></div>
-
-</div>
-
-<script>
-function login() {
-  const btn = document.querySelector("button");
-  btn.innerText = "Logging in...";
-  btn.disabled = true;
-
-  setTimeout(() => {
-    document.getElementById("success").innerText =
-      "Login successful ✓ (demo)";
-    btn.innerText = "Welcome";
-  }, 1400);
-}
-</script>
-
-</body>
-</html>
