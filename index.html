@@ -1,192 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+<title>Stripe Test Checkout</title>
+<script src="https://js.stripe.com/v3/"></script>
 <style>
-* { box-sizing: border-box; font-family: Inter, sans-serif; }
-
 body {
-  margin: 0;
+  font-family: Arial;
   background: #f6f9fc;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
-.checkout {
-  width: 900px;
-  max-width: 95%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.card {
   background: white;
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
-
-/* LEFT SIDE */
-
-.summary {
-  background: #0a2540;
-  color: white;
-  padding: 40px;
-}
-
-.summary h2 {
-  margin: 0 0 20px 0;
-  font-weight: 600;
-}
-
-.item {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-  opacity: 0.9;
-}
-
-.total {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-/* RIGHT SIDE */
-
-.form {
-  padding: 40px;
-}
-
-h3 {
-  margin-top: 0;
-  font-weight: 600;
-}
-
-.input-group {
-  margin-bottom: 16px;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-input:focus {
-  outline: none;
-  border-color: #635bff;
-  box-shadow: 0 0 0 3px rgba(99,91,255,0.15);
-}
-
-.row {
-  display: flex;
-  gap: 10px;
+  padding: 30px;
+  border-radius: 14px;
+  width: 320px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 button {
   width: 100%;
   padding: 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.pay {
   background: #635bff;
   color: white;
-}
-
-.pay:hover {
-  background: #564df4;
-}
-
-.wallet {
-  margin-top: 10px;
-  background: black;
-  color: white;
-}
-
-.success {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
   margin-top: 15px;
-  color: #16a34a;
-  font-weight: 600;
+  font-size: 16px;
 }
 
-@media (max-width: 700px) {
-  .checkout {
-    grid-template-columns: 1fr;
-  }
+#card-element {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="checkout">
+<div class="card">
+<h3>Test Payment $5</h3>
 
-<div class="summary">
-  <h2>Order Summary</h2>
+<div id="card-element"></div>
 
-  <div class="item"><span>Premium Plan</span><span>$39</span></div>
-  <div class="item"><span>Cloud Storage</span><span>$10</span></div>
+<button id="pay">Pay</button>
 
-  <div class="total">Total: $49</div>
-</div>
-
-<div class="form">
-
-<h3>Payment Details</h3>
-
-<div class="input-group">
-  <input placeholder="Cardholder name">
-</div>
-
-<div class="input-group">
-  <input placeholder="Card number">
-</div>
-
-<div class="row">
-  <div class="input-group">
-    <input placeholder="MM / YY">
-  </div>
-  <div class="input-group">
-    <input placeholder="CVC">
-  </div>
-</div>
-
-<button class="pay" onclick="pay()">Pay $49</button>
-<button class="wallet">Apple / Google Pay</button>
-
-<div id="success" class="success"></div>
-
-</div>
-
+<div id="msg"></div>
 </div>
 
 <script>
-function pay() {
-  const btn = document.querySelector(".pay");
-  btn.innerText = "Processing...";
-  btn.disabled = true;
+// Replace with your Stripe publishable key
+const stripe = Stripe("pk_test_YOUR_KEY_HERE");
 
-  setTimeout(() => {
-    document.getElementById("success").innerText =
-      "Payment successful ✓ Order ID: " +
-      Math.random().toString(36).substring(2,9).toUpperCase();
-    btn.innerText = "Paid";
-  }, 1500);
-}
+const elements = stripe.elements();
+const card = elements.create("card");
+card.mount("#card-element");
+
+document.getElementById("pay").onclick = async () => {
+  const {error, paymentMethod} = await stripe.createPaymentMethod({
+    type: "card",
+    card: card
+  });
+
+  if (error) {
+    document.getElementById("msg").innerText = error.message;
+  } else {
+    document.getElementById("msg").innerText =
+      "Success! Fake payment method created: " + paymentMethod.id;
+  }
+};
 </script>
 
 </body>
