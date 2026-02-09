@@ -3,232 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid Checkout</title>
+<title>Mini SaaS Store</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; font-family: Inter, sans-serif; }
 
 body {
   margin: 0;
-  min-height: 100vh;
   background: radial-gradient(circle at top, #1e1b4b, #020617);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  color: white;
 }
-
-/* floating glow background */
-
-.glow {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: #6366f1;
-  filter: blur(180px);
-  opacity: 0.45;
-  border-radius: 50%;
-  animation: float 8s infinite alternate ease-in-out;
-}
-
-@keyframes float {
-  from { transform: translateY(-50px); }
-  to { transform: translateY(50px); }
-}
-
-/* glass container */
 
 .app {
   width: 420px;
   max-width: 95%;
-  padding: 28px;
-  border-radius: 24px;
-  backdrop-filter: blur(28px);
-  background: rgba(255,255,255,0.06);
+  padding: 24px;
+  border-radius: 22px;
+  backdrop-filter: blur(25px);
+  background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 25px 80px rgba(0,0,0,0.6);
-  color: white;
-  animation: fade 0.7s ease;
 }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+h2 { margin-top: 0; text-align: center; }
 
-.header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.header small {
-  opacity: 0.7;
-}
-
-.header h1 {
-  margin: 6px 0 0;
-  font-weight: 600;
-}
-
-/* inputs */
-
-label {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.box {
-  margin-top: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.12);
-  overflow: hidden;
-}
-
-input, select {
+input {
   width: 100%;
   padding: 14px;
+  margin: 8px 0;
+  border-radius: 12px;
   border: none;
-  background: transparent;
+  background: rgba(255,255,255,0.12);
   color: white;
-  font-size: 15px;
 }
 
-input::placeholder { color: #bbb; }
-
-input:focus { outline: none; }
-
-.split {
-  display: flex;
-  border-top: 1px solid rgba(255,255,255,0.12);
-}
-
-.split input {
-  border-right: 1px solid rgba(255,255,255,0.12);
-}
-
-.split input:last-child {
-  border-right: none;
-}
-
-.section {
-  margin-bottom: 16px;
-}
-
-/* footer */
-
-.footer {
-  text-align: center;
-  font-size: 13px;
-  opacity: 0.7;
-  margin: 10px 0;
-}
-
-/* button */
-
-.pay {
+button {
   width: 100%;
-  padding: 16px;
-  border-radius: 16px;
+  padding: 14px;
+  border-radius: 14px;
   border: none;
-  font-size: 17px;
+  margin-top: 10px;
   font-weight: 600;
   cursor: pointer;
   background: linear-gradient(135deg,#6366f1,#a855f7);
   color: white;
-  transition: 0.25s;
 }
 
-.pay:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(99,102,241,0.6);
+.product {
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 .success {
   text-align: center;
-  margin-top: 12px;
   color: #22c55e;
+  margin-top: 10px;
   font-weight: 600;
-  animation: pop 0.5s ease;
-}
-
-@keyframes pop {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="glow"></div>
-
 <div class="app">
 
-<div class="header">
-  <small>Custom product</small>
-  <h1>$10.00</h1>
+<!-- LOGIN PAGE -->
+<div id="login">
+  <h2>Login</h2>
+  <input id="email" placeholder="Email">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
 </div>
 
-<div class="section">
-  <label>Email</label>
-  <div class="box">
-    <input placeholder="you@example.com">
+<!-- STORE PAGE -->
+<div id="store" style="display:none">
+  <h2>Product Store</h2>
+
+  <div class="product">
+    <span>Premium Plan</span>
+    <button onclick="add(10)">Add $10</button>
   </div>
-</div>
 
-<div class="section">
-  <label>Card information</label>
-  <div class="box">
-    <input placeholder="1234 1234 1234 1234">
-    <div class="split">
-      <input placeholder="MM / YY">
-      <input placeholder="CVC">
-    </div>
+  <div class="product">
+    <span>Cloud Upgrade</span>
+    <button onclick="add(5)">Add $5</button>
   </div>
-</div>
 
-<div class="section">
-  <label>Name on card</label>
-  <div class="box">
-    <input placeholder="Full name">
+  <div class="product">
+    <span>Pro Toolkit</span>
+    <button onclick="add(15)">Add $15</button>
   </div>
-</div>
 
-<div class="section">
-  <label>Country or region</label>
-  <div class="box">
-    <select>
-      <option>United States</option>
-      <option>Canada</option>
-      <option>United Kingdom</option>
-    </select>
-    <input placeholder="ZIP">
+  <div class="cart">
+    Cart total: $<span id="total">0</span>
   </div>
+
+  <button onclick="checkout()">Checkout</button>
 </div>
 
-<div class="footer">
-  ↩ Free returns and exchanges
+<!-- CHECKOUT PAGE -->
+<div id="checkout" style="display:none">
+  <h2>Checkout</h2>
+  <p>Total: $<span id="checkoutTotal"></span></p>
+  <button onclick="pay()">Pay Now</button>
 </div>
-
-<button class="pay" onclick="pay()">Pay $10.00</button>
 
 <div id="success" class="success"></div>
 
 </div>
 
 <script>
+let total = 0;
+
+function login() {
+  const e = document.getElementById("email").value;
+  const p = document.getElementById("pass").value;
+
+  if(e && p) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("store").style.display = "block";
+  }
+}
+
+function add(price) {
+  total += price;
+  document.getElementById("total").innerText = total;
+}
+
+function checkout() {
+  if(total === 0) return;
+  document.getElementById("store").style.display = "none";
+  document.getElementById("checkout").style.display = "block";
+  document.getElementById("checkoutTotal").innerText = total;
+}
+
 function pay() {
-  const btn = document.querySelector(".pay");
+  const btn = document.querySelector("#checkout button");
   btn.innerText = "Processing...";
   btn.disabled = true;
 
   setTimeout(() => {
     document.getElementById("success").innerText =
       "Payment successful ✓ (demo)";
-    btn.innerText = "Paid";
+    total = 0;
   }, 1500);
 }
 </script>
