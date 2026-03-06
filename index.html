@@ -1,30 +1,458 @@
-<div class="product">
-  <img src="https://via.placeholder.com/200">
-  <h3>iPhone Crystal</h3>
-  <p>$999</p>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bKash Payment Success</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #e2136e;
+      --pink-light: #f5d0e3;
+      --green: #1aa637;
+      --text-dark: #1a1a2e;
+      --text-mid: #444;
+      --text-muted: #888;
+      --bg: #f7f7f7;
+      --white: #ffffff;
+      --border: #e8e8e8;
+      --orange: #f4a245;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 24px 12px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 390px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(226,19,110,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      animation: slideUp 0.5s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 28px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--pink);
+    }
+
+    .header-title span {
+      color: var(--green);
+    }
+
+    .check-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2.5px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 0.55s 0.25s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.4); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .check-circle svg {
+      stroke: var(--green);
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ── Merchant ── */
+    .merchant {
+      padding: 14px 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .merchant-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .merchant-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: white;
+    }
+
+    .merchant-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .merchant-phone {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── Grid ── */
+    .info-grid {
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .info-cell {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-cell:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+
+    .info-cell.full {
+      grid-column: 1 / -1;
+    }
+
+    .cell-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .cell-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .cell-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .txn-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .copy-btn:hover { color: var(--pink); }
+    .copy-btn svg { width: 16px; height: 16px; }
+
+    .balance-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eye-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .eye-btn:hover { color: var(--pink); }
+    .eye-btn svg { width: 20px; height: 20px; }
+
+    /* ── Share button ── */
+    .actions {
+      padding: 20px 24px 4px;
+    }
+
+    .share-btn {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid var(--pink);
+      background: transparent;
+      color: var(--pink);
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Hind Siliguri', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .share-btn:hover {
+      background: var(--pink);
+      color: white;
+    }
+
+    .share-btn svg { width: 18px; height: 18px; }
+
+    /* ── Reward ── */
+    .reward {
+      padding: 24px 24px 20px;
+      text-align: center;
+    }
+
+    .reward-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--pink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      animation: pulse 2s 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(226,19,110,0.35); }
+      50% { box-shadow: 0 0 0 10px rgba(226,19,110,0); }
+    }
+
+    .reward-icon svg { width: 26px; height: 26px; fill: white; }
+
+    .reward-earned {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .reward-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .reward-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .reward-link {
+      color: var(--pink);
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ── Footer button ── */
+    .footer-btn {
+      background: var(--pink);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 20px 24px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Hind Siliguri', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .footer-btn:hover { background: #c51060; }
+    .footer-btn svg { width: 24px; height: 24px; }
+
+    /* ── Copied toast ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #222;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-family: 'Hind Siliguri', sans-serif;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">আপনার <span>পেমেন্ট</span>&nbsp; সফল হয়েছে</div>
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Merchant -->
+  <div class="merchant">
+    <div class="merchant-icon">
+      <!-- shopping bag icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        <path d="M16 10a4 4 0 01-8 0" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="merchant-name">Streaming Hobe</div>
+      <div class="merchant-phone">01330744327</div>
+    </div>
+  </div>
+
+  <!-- Info Grid -->
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="cell-label">সময়</div>
+      <div class="cell-value">09:04pm 04/03/26</div>
+    </div>
+
+    <div class="info-cell">
+      <div class="cell-label">ট্রানজেকশন আইডি</div>
+      <div class="txn-row">
+        <span class="cell-value" id="txnId">DC43OUAMF7</span>
+        <button class="copy-btn" onclick="copyTxn()" title="Copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="info-cell">
+      <div class="cell-label">সর্বমোট</div>
+      <div class="cell-value">৳240.00</div>
+      <div class="cell-sub">+ চার্জ প্রযোজ্য নয়</div>
+    </div>
+
+    <div class="info-cell">
+      <div class="cell-label">নতুন ব্যালেন্স</div>
+      <div class="balance-row">
+        <span class="cell-value" id="balanceVal">**********</span>
+        <button class="eye-btn" onclick="toggleBalance()" title="Show balance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="info-cell full">
+      <div class="cell-label">রেফারেন্স</div>
+      <div class="cell-value" style="color: var(--text-muted); font-weight:400; font-size:13px;">—</div>
+    </div>
+  </div>
+
+  <!-- Share -->
+  <div class="actions">
+    <button class="share-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
+        <polyline points="16 6 12 2 8 6"/>
+        <line x1="12" y1="2" x2="12" y2="15"/>
+      </svg>
+      শেয়ার
+    </button>
+  </div>
+
+  <!-- Reward -->
+  <div class="reward">
+    <div class="reward-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <div class="reward-earned">আপনি অর্জন করেছেন</div>
+    <div class="reward-title">বিকাশ রিওয়ার্ড পয়েন্ট</div>
+    <div class="reward-desc">পয়েন্ট ব্যবহার করতে <span class="reward-link">বিকাশ রিওয়ার্ডস</span> চেক করুন!</div>
+  </div>
+
+  <!-- Footer -->
+  <button class="footer-btn">
+    পরবর্তী
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
 </div>
 
-<style>
-body {
-  background: linear-gradient(135deg,#020617,#0f172a);
-  font-family: sans-serif;
-}
+<div class="toast" id="toast">ট্রানজেকশন আইডি কপি হয়েছে!</div>
 
-.product {
-  width: 220px;
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: white;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(255,255,255,0.1);
-  transition: 0.3s;
-}
+<script>
+  const fakeBalance = "৳1,560.00";
+  let balanceVisible = false;
 
-.product:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 60px rgba(255,255,255,0.2);
-}
-</style>
+  function toggleBalance() {
+    balanceVisible = !balanceVisible;
+    document.getElementById('balanceVal').textContent = balanceVisible ? fakeBalance : '**********';
+    const icon = document.getElementById('eyeIcon');
+    icon.innerHTML = balanceVisible
+      ? `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+         <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+         <line x1="1" y1="1" x2="23" y2="23"/>`
+      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+         <circle cx="12" cy="12" r="3"/>`;
+  }
+
+  function copyTxn() {
+    navigator.clipboard.writeText('DC43OUAMF7').catch(() => {});
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>
